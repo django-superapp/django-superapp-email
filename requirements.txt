@@ -1,0 +1,10 @@
+# Email dependencies
+django-celery-beat>=2.5.0
+django-celery-results>=2.5.1
+celery>=5.3.4
+imaplib2>=3.6
+python-dotenv>=1.0.0
+email-validator>=2.0.0
+aiosmtplib>=2.0.2
+beautifulsoup4==4.12.*
+imapclient>=2.3.1
