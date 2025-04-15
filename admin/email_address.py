@@ -1,17 +1,30 @@
 from django.contrib import admin
 from django.utils.html import format_html
+from django import forms
 
 from superapp.apps.admin_portal.admin import SuperAppModelAdmin
 from superapp.apps.admin_portal.sites import superapp_admin_site
+from superapp.apps.admin_portal.widgets import PasswordToggleWidget
 from superapp.apps.email.models import EmailAddress
+
+
+class EmailAddressForm(forms.ModelForm):
+    class Meta:
+        model = EmailAddress
+        fields = '__all__'
+        widgets = {
+            'smtp_password': PasswordToggleWidget(),
+            'imap_password': PasswordToggleWidget(),
+        }
 
 
 @admin.register(EmailAddress, site=superapp_admin_site)
 class EmailAddressAdmin(SuperAppModelAdmin):
+    form = EmailAddressForm
     list_display = ['email', 'name', 'smtp_server', 'is_active', 'created_at']
     list_filter = ['is_active', 'smtp_connection_type', 'imap_connection_type']
     search_fields = ['email', 'name', 'smtp_server']
-    readonly_fields = ['created_at', 'updated_at', 'aws_ses_help_text']
+    readonly_fields = ['created_at', 'updated_at', 'aws_ses_help_text',]
     fieldsets = (
         (None, {
             'fields': ('email', 'name', 'is_active')
